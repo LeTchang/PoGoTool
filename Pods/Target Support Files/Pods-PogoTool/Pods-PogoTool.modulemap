@@ -1,0 +1,6 @@
+framework module Pods_PogoTool {
+  umbrella header "Pods-PogoTool-umbrella.h"
+
+  export *
+  module * { export * }
+}

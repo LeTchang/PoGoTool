@@ -1,0 +1,43 @@
+PODS:
+  - Alamofire (3.4.1)
+  - AlamofireImage (2.4.0):
+    - Alamofire (~> 3.3)
+  - PGoApi (0.1.0):
+    - Alamofire (~> 3.4)
+    - ProtocolBuffers-Swift (~> 3.0)
+  - ProtocolBuffers-Swift (3.0.0)
+  - SwiftyJSON (2.3.2)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.4)
+  - AlamofireImage (~> 2.4)
+  - PGoApi (from `https://github.com/lsapan/pgoapi-swift`, branch `master`)
+  - ProtocolBuffers-Swift (from `https://github.com/alexeyxo/protobuf-swift`, branch `ProtoBuf3.0-Swift2.0`)
+  - SwiftyJSON (~> 2.3)
+
+EXTERNAL SOURCES:
+  PGoApi:
+    :branch: master
+    :git: https://github.com/lsapan/pgoapi-swift
+  ProtocolBuffers-Swift:
+    :branch: ProtoBuf3.0-Swift2.0
+    :git: https://github.com/alexeyxo/protobuf-swift
+
+CHECKOUT OPTIONS:
+  PGoApi:
+    :commit: 5b6ea088d53cb0ff50dc79d2acfbe473d0dd8911
+    :git: https://github.com/lsapan/pgoapi-swift
+  ProtocolBuffers-Swift:
+    :commit: f43bcfe55f7c2b19f19363c12d9499dac232f3ae
+    :git: https://github.com/alexeyxo/protobuf-swift
+
+SPEC CHECKSUMS:
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
+  PGoApi: 8cee6dd3898aee27925cac4e9d8cdd7d154bfc68
+  ProtocolBuffers-Swift: 948824656ef9f507348481655d409628b0219be0
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+
+PODFILE CHECKSUM: 8bfc2b34abdc4f738fd5b33b37524e14096586c4
+
+COCOAPODS: 1.0.1
