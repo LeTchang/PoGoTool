@@ -8,15 +8,26 @@
 
 import UIKit
 import PGoApi
+import Alamofire
+import AlamofireImage
 
-class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate {
+class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITableViewDataSource {
 
     var auth: PtcOAuth!
+    var pokemons = [Pokemon]()
+    @IBOutlet weak var pkmnTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let cellNib = UINib(nibName: "pokemonCell", bundle: nil)
+        self.pkmnTableView.registerNib(cellNib, forCellReuseIdentifier: "pokemonCell")
+        self.view.backgroundColor = UIColor.grayColor()
+        pkmnTableView.backgroundColor = UIColor.clearColor()
+        
         auth = PtcOAuth()
         auth.delegate = self
+        
+        // MARK: - Add id and password
         auth.login(withUsername: "", withPassword: "")
     }
     
@@ -40,6 +51,7 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate {
             let request = PGoApiRequest()
             request.getInventory()
             request.makeRequest(.GetInventory, auth: auth, delegate: self)
+            
         case .GetInventory:
             print("Got Inventory !")
             let r = response.subresponses[0] as! Pogoprotos.Networking.Responses.GetInventoryResponse
@@ -47,19 +59,26 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate {
             for x in 0 ..< item.inventoryItems.count {
                 if item.inventoryItems[x].inventoryItemData.hasPokemonData == true {
                     if item.inventoryItems[x].inventoryItemData.pokemonData.hasIsEgg == false {
-                        let id = item.inventoryItems[x].inventoryItemData.pokemonData.id
+                        
+                        let cp = item.inventoryItems[x].inventoryItemData.pokemonData.cp
+                        let att = item.inventoryItems[x].inventoryItemData.pokemonData.individualAttack
+                        let def = item.inventoryItems[x].inventoryItemData.pokemonData.individualDefense
+                        let sta = item.inventoryItems[x].inventoryItemData.pokemonData.individualStamina
+                        let perf = String(format: "%.2f", Float(att + def + sta) / 45.0 * 100.0) + "%"
                         var pkmn = item.inventoryItems[x].inventoryItemData.pokemonData.pokemonId.description
                         pkmn.removeAtIndex(pkmn.startIndex)
                         let num = String(format: "%03d", item.inventoryItems[x].inventoryItemData.pokemonData.pokemonId.rawValue)
-                        let atq = item.inventoryItems[x].inventoryItemData.pokemonData.individualAttack
-                        let def = item.inventoryItems[x].inventoryItemData.pokemonData.individualDefense
-                        let sta = item.inventoryItems[x].inventoryItemData.pokemonData.individualStamina
-                        let perf = String(format: "%.2f", Float(atq + def + sta) / 45.0 * 100.0) + "%"
-                        print("ID:", id, "| Num:", num)
-                        print(pkmn, " | ", atq, "/", def, "/", sta, " | perfect: ", perf, separator: "", terminator: "\n\n")
+                        let url = "http://serebii.net/pokemongo/pokemon/" + num + ".png"
+                        
+                        let param = [String(cp), String(att), String(def), String(sta), perf, pkmn, num, url]
+                        let id = item.inventoryItems[x].inventoryItemData.pokemonData.id
+                        let new = Pokemon(values: param, id: id)
+                        self.pokemons.append(new)
                     }
                 }
             }
+            print("Total pokemon:", pokemons.count)
+            self.pkmnTableView.reloadData()
         default:
             break
         }
@@ -68,5 +87,41 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate {
     func didReceiveApiError(intent: PGoApiIntent, statusCode: Int?) {
         print("API Error: \(statusCode)")
     }
+    
+    func refreshInventory() {
+        pokemons.removeAll()
+        let request = PGoApiRequest()
+        request.getInventory()
+        request.makeRequest(.GetInventory, auth: auth, delegate: self)
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return pokemons.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("pokemonCell") as! pokemonCell
+        let i = indexPath.row
+        
+        cell.nameText.text = pokemons[i].pkmn
+        cell.statText.text = pokemons[i].cp + "cp - " + pokemons[i].perf
+        
+        Alamofire.request(.GET, pokemons[i].urlImg).responseImage {
+            response in
+            if let image = response.result.value {
+                cell.pokemonImage.image = image
+            } else {
+                cell.pokemonImage.image = nil
+            }
+        }
+        
+        return cell
+    }
+    
+    @IBAction func onRefresh(sender: AnyObject) {
+        self.pkmnTableView.reloadData()
+    }
+    
+    
 }
 
