@@ -22,7 +22,8 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         let cellNib = UINib(nibName: "pokemonCell", bundle: nil)
         self.pkmnTableView.registerNib(cellNib, forCellReuseIdentifier: "pokemonCell")
         self.view.backgroundColor = UIColor.grayColor()
-        pkmnTableView.backgroundColor = UIColor.clearColor()
+        self.pkmnTableView.backgroundColor = UIColor.clearColor()
+        self.pkmnTableView.allowsSelection = false
         
         auth = PtcOAuth()
         auth.delegate = self
@@ -106,6 +107,11 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         cell.nameText.text = pokemons[i].pkmn
         cell.statText.text = pokemons[i].cp + "cp - " + pokemons[i].perf
         
+        cell.transferButton.tag = i
+        cell.transferButton.addTarget(self, action: #selector(ViewController.onTransfer(_:)), forControlEvents: .TouchUpInside)
+        cell.evolveButton.tag = i
+        cell.evolveButton.addTarget(self, action: #selector(ViewController.onEvolve(_:)), forControlEvents: .TouchUpInside)
+        
         Alamofire.request(.GET, pokemons[i].urlImg).responseImage {
             response in
             if let image = response.result.value {
@@ -122,6 +128,15 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         self.pkmnTableView.reloadData()
     }
     
+    func onTransfer(sender: UIButton) {
+        let i = sender.tag
+        print(pokemons[i].pkmn, "clicked - TRANSFER")
+    }
+
+    func onEvolve(sender: UIButton) {
+        let i = sender.tag
+        print(pokemons[i].pkmn, "clicked - EVOLVE")
+    }
     
 }
 

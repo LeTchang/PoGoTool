@@ -21,7 +21,7 @@ class pokemonCell: UITableViewCell {
         super.awakeFromNib()
         
         self.backgroundColor = UIColor.clearColor()
-        self.userInteractionEnabled = false
+        
         
         nameText.enabled = false
         statText.enabled = false
@@ -31,6 +31,8 @@ class pokemonCell: UITableViewCell {
         statText.borderStyle = UITextBorderStyle.None
         
         pokemonImage.image = UIImage()
+        
+//        transferButton.enabled = true
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -38,5 +40,4 @@ class pokemonCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 }
