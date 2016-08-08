@@ -4,8 +4,6 @@
 A word from the author (me):
 > The app is still in progress, sorry not sorry
 
-This app was built using [lsapan/pgoapi-swift](https://github.com/lsapan/pgoapi-swift).
-
 ### Pokemon GO tools
 - [x] PTC login
 - [ ] Google login
@@ -15,3 +13,6 @@ This app was built using [lsapan/pgoapi-swift](https://github.com/lsapan/pgoapi-
 - [x] Evolve
 
 ![demo](http://image.noelshack.com/fichiers/2016/32/1470662661-screen-shot-2016-08-08-at-14-57-29.png)
+
+# Credits
+This app was built using [lsapan/pgoapi-swift](https://github.com/lsapan/pgoapi-swift).
