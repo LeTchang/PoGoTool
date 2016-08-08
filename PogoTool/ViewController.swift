@@ -37,7 +37,8 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         print("Starting simulation...")
         let request = PGoApiRequest()
         request.simulateAppStart()
-        request.makeRequest(.Login, auth: auth, delegate: self)    }
+        request.makeRequest(.Login, auth: auth, delegate: self)
+    }
     
     func didNotReceiveAuth() {
         print("Failed to auth!")
@@ -54,7 +55,7 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
             request.makeRequest(.GetInventory, auth: auth, delegate: self)
             
         case .GetInventory:
-            print("Got Inventory !")
+            print(" ----- Got Inventory -----")
             let r = response.subresponses[0] as! Pogoprotos.Networking.Responses.GetInventoryResponse
             let item = r.inventoryDelta
             for x in 0 ..< item.inventoryItems.count {
@@ -79,7 +80,17 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
                 }
             }
             print("Total pokemon:", pokemons.count)
+            self.pokemons.sortInPlace { $0.num < $1.num }
             self.pkmnTableView.reloadData()
+        
+        case .ReleasePokemon:
+            print(" ----- Got Release -----")
+            refreshInventory()
+            
+        case .EvolvePokemon:
+            print(" ----- Got Evolve -----")
+            refreshInventory()
+            
         default:
             break
         }
@@ -96,6 +107,7 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         request.makeRequest(.GetInventory, auth: auth, delegate: self)
     }
     
+    // MARK: - TableView Functions
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pokemons.count
     }
@@ -124,19 +136,29 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         return cell
     }
     
+    // MARK: - Handle Buttons
     @IBAction func onRefresh(sender: AnyObject) {
-        self.pkmnTableView.reloadData()
+        print("Refreshing inventory...")
+        refreshInventory()
     }
     
     func onTransfer(sender: UIButton) {
         let i = sender.tag
+        let pkmnId = self.pokemons[i].id
         print(pokemons[i].pkmn, "clicked - TRANSFER")
+        
+        let request = PGoApiRequest()
+        request.releasePokemon(pkmnId)
+        request.makeRequest(.ReleasePokemon, auth: auth, delegate: self)
     }
 
     func onEvolve(sender: UIButton) {
         let i = sender.tag
+        let pkmnId = self.pokemons[i].id
         print(pokemons[i].pkmn, "clicked - EVOLVE")
+        
+        let request = PGoApiRequest()
+        request.evolvePokemon(pkmnId)
+        request.makeRequest(.EvolvePokemon, auth: auth, delegate: self)
     }
-    
 }
-
