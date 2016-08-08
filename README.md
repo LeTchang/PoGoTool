@@ -1,9 +1,13 @@
 # PoGoTool
 :iphone: iOS App for pokemon Go
 
+A word from the author (me):
+> The app is still in progress, sorry not sorry
+
+
 ### Pokemon GO tools
-- [x] PTC loggin
-- [ ] Google loggin
+- [x] PTC login
+- [ ] Google login
 - [x] Get trainer's pokemon
 - [x] Show IV
 - [x] Transfer
