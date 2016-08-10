@@ -13,31 +13,30 @@ import AlamofireImage
 
 class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITableViewDataSource {
 
-    var auth: PtcOAuth!
-    var pokemons = [Pokemon]()
     @IBOutlet weak var pkmnTableView: UITableView!
+
+    var auth: PtcOAuth!
+    var gAuth: GPSOAuth!
+    var pokemons = [Pokemon]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let cellNib = UINib(nibName: "pokemonCell", bundle: nil)
-        self.pkmnTableView.registerNib(cellNib, forCellReuseIdentifier: "pokemonCell")
         self.view.backgroundColor = UIColor.grayColor()
+        self.navigationItem.hidesBackButton = true
+        self.pkmnTableView.registerNib(cellNib, forCellReuseIdentifier: "pokemonCell")
         self.pkmnTableView.backgroundColor = UIColor.clearColor()
         self.pkmnTableView.allowsSelection = false
         
-        auth = PtcOAuth()
-        auth.delegate = self
-        
-        // MARK: - Add id and password
-        auth.login(withUsername: "", withPassword: "")
+        let request = PGoApiRequest()
+        request.getInventory()
+        request.makeRequest(.GetInventory, auth: auth, delegate: self)
     }
     
     func didReceiveAuth() {
         print("Auth received!!")
-        print("Starting simulation...")
-        let request = PGoApiRequest()
-        request.simulateAppStart()
-        request.makeRequest(.Login, auth: auth, delegate: self)
+        
     }
     
     func didNotReceiveAuth() {
@@ -45,14 +44,11 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     }
     
     func didReceiveApiResponse(intent: PGoApiIntent, response: PGoApiResponse) {
-        print("Got that API response: \(intent)")
         switch intent {
+
         case .Login:
+            print(" ----- Got Login -----")
             auth.endpoint = "https://\((response.response as! Pogoprotos.Networking.Envelopes.ResponseEnvelope).apiUrl)/rpc"
-            print("New endpoint: \(auth.endpoint)")
-            let request = PGoApiRequest()
-            request.getInventory()
-            request.makeRequest(.GetInventory, auth: auth, delegate: self)
             
         case .GetInventory:
             print(" ----- Got Inventory -----")
@@ -132,7 +128,6 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
                 cell.pokemonImage.image = nil
             }
         }
-        
         return cell
     }
     

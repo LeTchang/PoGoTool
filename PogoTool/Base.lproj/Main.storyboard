@@ -48,7 +48,90 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="439" y="36"/>
+            <point key="canvasLocation" x="1063" y="36"/>
+        </scene>
+        <!--Pokemon GO - Login-->
+        <scene sceneID="Mtk-a2-7Ed">
+            <objects>
+                <viewController id="6RN-np-Iql" customClass="LoginViewController" customModule="PogoTool" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jEh-af-fOg"/>
+                        <viewControllerLayoutGuide type="bottom" id="qGL-Il-pSr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dbf-bZ-Djo">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="srG-Dp-zWp">
+                                <rect key="frame" x="250" y="144" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Fix-zu-3BM"/>
+                                    <constraint firstAttribute="height" constant="30" id="MxF-lB-y9H"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rg0-68-ZXU">
+                                <rect key="frame" x="250" y="182" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="2LL-at-9Mb"/>
+                                    <constraint firstAttribute="height" constant="30" id="pbl-t7-a8M"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xIC-Dx-QLF">
+                                <rect key="frame" x="220" y="262" width="160" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTz-oF-G5l">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="8xj-AF-ft9"/>
+                                            <constraint firstAttribute="height" constant="30" id="qob-RK-HSp"/>
+                                        </constraints>
+                                        <state key="normal" title="PTC"/>
+                                        <connections>
+                                            <action selector="onPtc:" destination="6RN-np-Iql" eventType="touchUpInside" id="LIR-sg-o1X"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3UR-WX-S2b">
+                                        <rect key="frame" x="80" y="0.0" width="80" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="bCu-9P-VrE"/>
+                                            <constraint firstAttribute="height" constant="30" id="kmq-4G-TRc"/>
+                                        </constraints>
+                                        <state key="normal" title="Google"/>
+                                        <connections>
+                                            <action selector="onGoogle:" destination="6RN-np-Iql" eventType="touchUpInside" id="Msw-K1-T9C"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="srG-Dp-zWp" firstAttribute="top" secondItem="jEh-af-fOg" secondAttribute="bottom" constant="80" id="3rp-oG-qFM"/>
+                            <constraint firstItem="srG-Dp-zWp" firstAttribute="centerX" secondItem="dbf-bZ-Djo" secondAttribute="centerX" id="4va-LT-eaB"/>
+                            <constraint firstItem="rg0-68-ZXU" firstAttribute="centerX" secondItem="dbf-bZ-Djo" secondAttribute="centerX" id="89Q-vs-6HE"/>
+                            <constraint firstItem="xIC-Dx-QLF" firstAttribute="centerX" secondItem="dbf-bZ-Djo" secondAttribute="centerX" id="rI1-ev-gdM"/>
+                            <constraint firstItem="xIC-Dx-QLF" firstAttribute="top" secondItem="rg0-68-ZXU" secondAttribute="bottom" constant="50" id="wfw-Hh-t9S"/>
+                            <constraint firstItem="rg0-68-ZXU" firstAttribute="top" secondItem="srG-Dp-zWp" secondAttribute="bottom" constant="8" id="xf6-uo-Rwm"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Pokemon GO - Login" id="6Re-id-z8L">
+                        <barButtonItem key="backBarButtonItem" title="Login" id="xFm-JT-Y2a"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="googleButton" destination="3UR-WX-S2b" id="asL-2y-hU2"/>
+                        <outlet property="passText" destination="rg0-68-ZXU" id="lJW-wv-9Pt"/>
+                        <outlet property="ptcButton" destination="eTz-oF-G5l" id="5gB-e6-Yl1"/>
+                        <outlet property="userText" destination="srG-Dp-zWp" id="vFn-kU-SBm"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="loginSegue" id="HJ8-dx-eH4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dTI-8V-fAe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="372" y="36"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="anv-V9-OOq">
@@ -61,7 +144,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="w5d-tb-Ihd"/>
+                        <segue destination="6RN-np-Iql" kind="relationship" relationship="rootViewController" id="nl0-Tl-oyz"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zy-Hj-iXX" userLabel="First Responder" sceneMemberID="firstResponder"/>

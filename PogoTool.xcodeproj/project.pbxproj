@@ -16,6 +16,7 @@
 		93D131E91D5242DE002A8E0E /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D131E81D5242DE002A8E0E /* Pokemon.swift */; };
 		93EFFFC81D5341C10027C0A6 /* pokemonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EFFFC61D5341C10027C0A6 /* pokemonCell.swift */; };
 		93EFFFC91D5341C10027C0A6 /* pokemonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93EFFFC71D5341C10027C0A6 /* pokemonCell.xib */; };
+		93FB17A81D58C14100C2581F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FB17A71D58C14100C2581F /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		93D131E81D5242DE002A8E0E /* Pokemon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
 		93EFFFC61D5341C10027C0A6 /* pokemonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pokemonCell.swift; sourceTree = "<group>"; };
 		93EFFFC71D5341C10027C0A6 /* pokemonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = pokemonCell.xib; sourceTree = "<group>"; };
+		93FB17A71D58C14100C2581F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A693BF1D6D9726112D5FA719 /* Pods-PogoTool.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PogoTool.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PogoTool/Pods-PogoTool.debug.xcconfig"; sourceTree = "<group>"; };
 		ED5578FB03A04E1A4B4212D9 /* Pods_PogoTool.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PogoTool.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				937C148A1D51F5B300F06A56 /* ViewController.swift */,
+				93FB17A71D58C14100C2581F /* LoginViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				937C148B1D51F5B300F06A56 /* ViewController.swift in Sources */,
 				93EFFFC81D5341C10027C0A6 /* pokemonCell.swift in Sources */,
 				937C14891D51F5B300F06A56 /* AppDelegate.swift in Sources */,
+				93FB17A81D58C14100C2581F /* LoginViewController.swift in Sources */,
 				93D131E91D5242DE002A8E0E /* Pokemon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
