@@ -31,7 +31,11 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         
         let request = PGoApiRequest()
         request.getInventory()
-        request.makeRequest(.GetInventory, auth: auth, delegate: self)
+        if auth.loggedIn {
+            request.makeRequest(.GetInventory, auth: auth, delegate: self)
+        } else {
+            request.makeRequest(.GetInventory, auth: gAuth, delegate: self)
+        }
     }
     
     func didReceiveAuth() {
@@ -45,11 +49,6 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     
     func didReceiveApiResponse(intent: PGoApiIntent, response: PGoApiResponse) {
         switch intent {
-
-        case .Login:
-            print(" ----- Got Login -----")
-            auth.endpoint = "https://\((response.response as! Pogoprotos.Networking.Envelopes.ResponseEnvelope).apiUrl)/rpc"
-            
         case .GetInventory:
             print(" ----- Got Inventory -----")
             let r = response.subresponses[0] as! Pogoprotos.Networking.Responses.GetInventoryResponse
@@ -100,7 +99,11 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         pokemons.removeAll()
         let request = PGoApiRequest()
         request.getInventory()
-        request.makeRequest(.GetInventory, auth: auth, delegate: self)
+        if auth.loggedIn {
+            request.makeRequest(.GetInventory, auth: auth, delegate: self)
+        } else {
+            request.makeRequest(.GetInventory, auth: gAuth, delegate: self)
+        }
     }
     
     // MARK: - TableView Functions
@@ -144,7 +147,11 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         
         let request = PGoApiRequest()
         request.releasePokemon(pkmnId)
-        request.makeRequest(.ReleasePokemon, auth: auth, delegate: self)
+        if auth.loggedIn {
+            request.makeRequest(.ReleasePokemon, auth: auth, delegate: self)
+        } else {
+            request.makeRequest(.ReleasePokemon, auth: gAuth, delegate: self)
+        }
     }
 
     func onEvolve(sender: UIButton) {
@@ -154,6 +161,10 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         
         let request = PGoApiRequest()
         request.evolvePokemon(pkmnId)
-        request.makeRequest(.EvolvePokemon, auth: auth, delegate: self)
+        if auth.loggedIn {
+            request.makeRequest(.EvolvePokemon, auth: auth, delegate: self)
+        } else {
+            request.makeRequest(.EvolvePokemon, auth: gAuth, delegate: self)
+        }
     }
 }

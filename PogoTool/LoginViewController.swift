@@ -32,7 +32,11 @@ class LoginViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate {
     func didReceiveApiResponse(intent: PGoApiIntent, response: PGoApiResponse) {
         print("API response received")
         if intent == .Login {
-            auth.endpoint = "https://\((response.response as! Pogoprotos.Networking.Envelopes.ResponseEnvelope).apiUrl)/rpc"
+            if auth.loggedIn {
+                auth.endpoint = "https://\((response.response as! Pogoprotos.Networking.Envelopes.ResponseEnvelope).apiUrl)/rpc"
+            } else {
+                gAuth.endpoint = "https://\((response.response as! Pogoprotos.Networking.Envelopes.ResponseEnvelope).apiUrl)/rpc"
+            }
             performSegueWithIdentifier("loginSegue", sender: nil)
         }
     }
@@ -46,7 +50,12 @@ class LoginViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate {
         print("Auth received")
         let request = PGoApiRequest()
         request.simulateAppStart()
-        request.makeRequest(.Login, auth: auth, delegate: self)
+        if auth.loggedIn {
+            request.makeRequest(.Login, auth: auth, delegate: self)
+        } else {
+            request.makeRequest(.Login, auth: gAuth, delegate: self)
+        }
+        
     }
     
     func didNotReceiveAuth() {
@@ -71,6 +80,7 @@ class LoginViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate {
         guard let pass = self.passText.text where self.passText.text != nil else {
             return
         }
+        print("Trying auth via Google")
         gAuth.login(withUsername: user, withPassword: pass)
     }
     
@@ -79,6 +89,7 @@ class LoginViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate {
         if segue.identifier == "loginSegue" {
             let new = segue.destinationViewController as! ViewController
             new.auth = self.auth
+            new.gAuth = self.gAuth
         }
     }
 }
