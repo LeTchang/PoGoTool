@@ -50,7 +50,11 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     func didReceiveApiResponse(intent: PGoApiIntent, response: PGoApiResponse) {
         switch intent {
         case .GetInventory:
-            print(" ----- Got Inventory -----")
+            print(" ----- Got Inventory ----- with \(response.subresponses.count) subresponse(s)")
+            guard response.subresponses.count > 0 else {
+                print("Error: no subresponses, should reload inventory\n")
+                return
+            }
             let r = response.subresponses[0] as! Pogoprotos.Networking.Responses.GetInventoryResponse
             let item = r.inventoryDelta
             for x in 0 ..< item.inventoryItems.count {
@@ -74,18 +78,17 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
                     }
                 }
             }
-            print("Total pokemon:", pokemons.count)
             self.pokemons.sortInPlace { $0.num < $1.num }
             self.pkmnTableView.reloadData()
+            print("Total pokemon: \(pokemons.count)\n")
+        
         
         case .ReleasePokemon:
             print(" ----- Got Release -----")
             refreshInventory()
-            
         case .EvolvePokemon:
             print(" ----- Got Evolve -----")
             refreshInventory()
-            
         default:
             break
         }
@@ -96,6 +99,7 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     }
     
     func refreshInventory() {
+        print("Refreshing inventory...")
         pokemons.removeAll()
         let request = PGoApiRequest()
         request.getInventory()
@@ -136,7 +140,6 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     
     // MARK: - Handle Buttons
     @IBAction func onRefresh(sender: AnyObject) {
-        print("Refreshing inventory...")
         refreshInventory()
     }
     
