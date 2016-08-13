@@ -14,10 +14,12 @@ import AlamofireImage
 class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITableViewDataSource {
 
     @IBOutlet weak var pkmnTableView: UITableView!
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
 
     var auth: PtcOAuth!
     var gAuth: GPSOAuth!
     var pokemons = [Pokemon]()
+    var locked = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,9 +81,10 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
                 }
             }
             self.pokemons.sortInPlace { $0.num < $1.num }
+            self.locked = false
+            self.refreshButton.enabled = true
             self.pkmnTableView.reloadData()
             print("Total pokemon: \(pokemons.count)\n")
-        
         
         case .ReleasePokemon:
             print(" ----- Got Release -----")
@@ -118,6 +121,10 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("pokemonCell") as! pokemonCell
         let i = indexPath.row
+        if i > pokemons.count {
+            print("Error: Index out of range")
+            return cell
+        }
         
         cell.nameText.text = pokemons[i].pkmn
         cell.statText.text = pokemons[i].cp + "cp - " + pokemons[i].perf
@@ -126,6 +133,14 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         cell.transferButton.addTarget(self, action: #selector(ViewController.onTransfer(_:)), forControlEvents: .TouchUpInside)
         cell.evolveButton.tag = i
         cell.evolveButton.addTarget(self, action: #selector(ViewController.onEvolve(_:)), forControlEvents: .TouchUpInside)
+        
+        if self.locked {
+            cell.transferButton.enabled = false
+            cell.evolveButton.enabled = false
+        } else {
+            cell.transferButton.enabled = true
+            cell.evolveButton.enabled = true
+        }
         
         Alamofire.request(.GET, pokemons[i].urlImg).responseImage {
             response in
@@ -140,14 +155,19 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     
     // MARK: - Handle Buttons
     @IBAction func onRefresh(sender: AnyObject) {
+        self.refreshButton.enabled = false
         refreshInventory()
     }
     
     func onTransfer(sender: UIButton) {
-        let i = sender.tag
-        let pkmnId = self.pokemons[i].id
-        print(pokemons[i].pkmn, "clicked - TRANSFER")
+        self.locked = true
+        self.refreshButton.enabled = false
+        self.pkmnTableView.reloadData()
         
+        let i = sender.tag
+        print("\(pokemons[i].pkmn) (\(pokemons[i].id)) clicked - TRANSFER")
+        
+        let pkmnId = self.pokemons[i].id
         let request = PGoApiRequest()
         request.releasePokemon(pkmnId)
         if auth.loggedIn {
@@ -158,9 +178,13 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     }
 
     func onEvolve(sender: UIButton) {
+        self.locked = true
+        self.refreshButton.enabled = false
+        self.pkmnTableView.reloadData()
+        
         let i = sender.tag
+        print("\(pokemons[i].pkmn) (\(pokemons[i].id)) clicked - EVOLVE")
         let pkmnId = self.pokemons[i].id
-        print(pokemons[i].pkmn, "clicked - EVOLVE")
         
         let request = PGoApiRequest()
         request.evolvePokemon(pkmnId)
@@ -168,6 +192,18 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
             request.makeRequest(.EvolvePokemon, auth: auth, delegate: self)
         } else {
             request.makeRequest(.EvolvePokemon, auth: gAuth, delegate: self)
+        }
+    }
+    
+    func enableAll() {
+        let sections = self.pkmnTableView.numberOfSections
+        for section in 0 ..< sections {
+            let rows = self.pkmnTableView.numberOfRowsInSection(section)
+            for row in 0 ..< rows {
+                let i = NSIndexPath(forRow: row, inSection: section)
+                let cell = self.pkmnTableView.dequeueReusableCellWithIdentifier("pokemonCell", forIndexPath: i) as! pokemonCell
+                cell.transferButton.enabled = false
+            }
         }
     }
 }
