@@ -225,16 +225,4 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
             request.makeRequest(.EvolvePokemon, auth: gAuth, delegate: self)
         }
     }
-    
-    func enableAll() {
-        let sections = self.pkmnTableView.numberOfSections
-        for section in 0 ..< sections {
-            let rows = self.pkmnTableView.numberOfRowsInSection(section)
-            for row in 0 ..< rows {
-                let i = NSIndexPath(forRow: row, inSection: section)
-                let cell = self.pkmnTableView.dequeueReusableCellWithIdentifier("pokemonCell", forIndexPath: i) as! pokemonCell
-                cell.transferButton.enabled = false
-            }
-        }
-    }
 }
