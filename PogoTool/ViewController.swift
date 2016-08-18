@@ -15,11 +15,14 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
 
     @IBOutlet weak var pkmnTableView: UITableView!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
-
+    @IBOutlet weak var IvButton: UIBarButtonItem!
+    @IBOutlet weak var CpButton: UIBarButtonItem!
+    
     var auth: PtcOAuth!
     var gAuth: GPSOAuth!
     var pokemons = [Pokemon]()
     var locked = false
+    var sort = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +43,7 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         }
     }
     
-    func sortByIv() {
+    func sortList() {
         var superArray = [[Pokemon]]()
         var tmp = [Pokemon]()
         var prev = self.pokemons[0].num
@@ -58,11 +61,16 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         }
         self.pokemons.removeAll()
         for i in 0 ..< superArray.count {
-            superArray[i].sortInPlace( { $0.perf > $1.perf } )
+            if self.sort {
+                superArray[i].sortInPlace( { $0.perf > $1.perf } )
+            } else {
+                superArray[i].sortInPlace( { Int($0.cp) > Int($1.cp) } )
+            }
             for y in 0 ..< superArray[i].count {
                 self.pokemons.append(superArray[i][y])
             }
         }
+        self.pkmnTableView.reloadData()
     }
     
     func didReceiveAuth() {
@@ -111,10 +119,9 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
                 }
             }
             self.pokemons.sortInPlace({ Int($0.num) < Int($1.num) })
-            sortByIv()
             self.locked = false
             self.refreshButton.enabled = true
-            self.pkmnTableView.reloadData()
+            sortList()
             print("Total pokemon: \(pokemons.count)\n")
         
         case .ReleasePokemon:
@@ -188,6 +195,16 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
     @IBAction func onRefresh(sender: AnyObject) {
         self.refreshButton.enabled = false
         refreshInventory()
+    }
+    
+    @IBAction func onIV(sender: AnyObject) {
+        self.sort = true
+        sortList()
+    }
+    
+    @IBAction func onCP(sender: AnyObject) {
+        self.sort = false
+        sortList()
     }
     
     func onTransfer(sender: UIButton) {

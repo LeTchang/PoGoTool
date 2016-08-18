@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nH5-x4-oGZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="nH5-x4-oGZ">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Pokemon List-->
@@ -36,13 +37,27 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" title="Pokemon List" id="dqY-7K-LkK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="0xu-mj-pIx">
-                            <connections>
-                                <action selector="onRefresh:" destination="BYZ-38-t0r" id="yio-uc-1Wn"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="refresh" id="0xu-mj-pIx">
+                                <connections>
+                                    <action selector="onRefresh:" destination="BYZ-38-t0r" id="yio-uc-1Wn"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="IV" id="NbK-Rc-VOD">
+                                <connections>
+                                    <action selector="onIV:" destination="BYZ-38-t0r" id="R8N-dE-bh8"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="CP" id="W2L-TJ-SYI">
+                                <connections>
+                                    <action selector="onCP:" destination="BYZ-38-t0r" id="P1z-cR-kcY"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="CpButton" destination="W2L-TJ-SYI" id="mZO-GO-Iai"/>
+                        <outlet property="IvButton" destination="NbK-Rc-VOD" id="sA2-Ad-yUG"/>
                         <outlet property="pkmnTableView" destination="h9g-Bg-jdE" id="Bvl-dD-sWC"/>
                         <outlet property="refreshButton" destination="0xu-mj-pIx" id="BpN-Se-tAP"/>
                     </connections>
