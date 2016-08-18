@@ -8,7 +8,8 @@ If you have a double authentification with your Google account, you can't login.
 
 ### Pokemon GO tools
 - [ ] Double auth Google login
-- [ ] Better pokemon sorting
+- [ ] UI enhancement
+- [x] Better pokemon sorting
 - [x] PTC login
 - [x] Google login
 - [x] Get trainer's pokemon
