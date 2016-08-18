@@ -40,9 +40,33 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         }
     }
     
+    func sortByIv() {
+        var superArray = [[Pokemon]]()
+        var tmp = [Pokemon]()
+        var prev = self.pokemons[0].num
+        
+        for x in 0 ..< self.pokemons.count {
+            if self.pokemons[x].num != prev {
+                superArray.append(tmp)
+                tmp.removeAll()
+                prev = self.pokemons[x].num
+            }
+            tmp.append(self.pokemons[x])
+            if x == self.pokemons.count - 1 {
+                superArray.append(tmp)
+            }
+        }
+        self.pokemons.removeAll()
+        for i in 0 ..< superArray.count {
+            superArray[i].sortInPlace( { $0.perf > $1.perf } )
+            for y in 0 ..< superArray[i].count {
+                self.pokemons.append(superArray[i][y])
+            }
+        }
+    }
+    
     func didReceiveAuth() {
         print("Auth received!!")
-        
     }
     
     func didNotReceiveAuth() {
@@ -59,6 +83,10 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
             }
             let r = response.subresponses[0] as! Pogoprotos.Networking.Responses.GetInventoryResponse
             let item = r.inventoryDelta
+            guard item != nil else {
+                print("Error: empty inventory, should reload inventory\n")
+                return
+            }
             for x in 0 ..< item.inventoryItems.count {
                 if item.inventoryItems[x].inventoryItemData.hasPokemonData == true {
                     if item.inventoryItems[x].inventoryItemData.pokemonData.hasIsEgg == false {
@@ -67,7 +95,7 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
                         let att = item.inventoryItems[x].inventoryItemData.pokemonData.individualAttack
                         let def = item.inventoryItems[x].inventoryItemData.pokemonData.individualDefense
                         let sta = item.inventoryItems[x].inventoryItemData.pokemonData.individualStamina
-                        let perf = String(format: "%.2f", Float(att + def + sta) / 45.0 * 100.0) + "%"
+                        let perf = String(format: "%.2f", Float(att + def + sta) / 45.0 * 100.0)
                         var pkmn = item.inventoryItems[x].inventoryItemData.pokemonData.pokemonId.description
                         pkmn.removeAtIndex(pkmn.startIndex)
                         let num = String(format: "%03d", item.inventoryItems[x].inventoryItemData.pokemonData.pokemonId.rawValue)
@@ -80,7 +108,8 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
                     }
                 }
             }
-            self.pokemons.sortInPlace { $0.num < $1.num }
+            self.pokemons.sortInPlace({ Int($0.num) < Int($1.num) })
+            sortByIv()
             self.locked = false
             self.refreshButton.enabled = true
             self.pkmnTableView.reloadData()
@@ -127,7 +156,7 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
         }
         
         cell.nameText.text = pokemons[i].pkmn
-        cell.statText.text = pokemons[i].cp + "cp - " + pokemons[i].perf
+        cell.statText.text = pokemons[i].cp + "cp - " + pokemons[i].perf + "%"
         
         cell.transferButton.tag = i
         cell.transferButton.addTarget(self, action: #selector(ViewController.onTransfer(_:)), forControlEvents: .TouchUpInside)

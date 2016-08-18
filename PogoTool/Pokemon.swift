@@ -33,11 +33,4 @@ class Pokemon: NSObject {
         self.urlImg = values[7]
         self.id = id
     }
-    
-    func displayPkmn() {
-        print("Pokemon: ", self.pkmn, " #", self.num, separator: "")
-        print("CP:", self.cp, "|", self.perf)
-        print("Url:", self.urlImg)
-        print("ID:", self.id, terminator: "\n\n")
-    }
 }
