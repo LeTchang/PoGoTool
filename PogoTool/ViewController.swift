@@ -79,12 +79,14 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
             print(" ----- Got Inventory ----- with \(response.subresponses.count) subresponse(s)")
             guard response.subresponses.count > 0 else {
                 print("Error: no subresponses, should reload inventory\n")
+                self.refreshButton.enabled = true
                 return
             }
             let r = response.subresponses[0] as! Pogoprotos.Networking.Responses.GetInventoryResponse
             let item = r.inventoryDelta
             guard item != nil else {
                 print("Error: empty inventory, should reload inventory\n")
+                self.refreshButton.enabled = true
                 return
             }
             for x in 0 ..< item.inventoryItems.count {
