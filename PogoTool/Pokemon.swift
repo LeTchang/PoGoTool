@@ -18,6 +18,9 @@ class Pokemon: NSObject {
     let sta: String
     let perf: String
     
+    let move1: String
+    let move2: String
+    
     let pkmn: String
     let num: String
     let urlImg: String
@@ -31,6 +34,8 @@ class Pokemon: NSObject {
         self.pkmn = values[5]
         self.num = values[6]
         self.urlImg = values[7]
+        self.move1 = values[8]
+        self.move2 = values[9]
         self.id = id
     }
 }

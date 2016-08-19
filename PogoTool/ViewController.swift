@@ -103,24 +103,31 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
                 return
             }
             for x in 0 ..< item.inventoryItems.count {
-                if item.inventoryItems[x].inventoryItemData.hasPokemonData == true {
-                    if item.inventoryItems[x].inventoryItemData.pokemonData.hasIsEgg == false {
-                        
-                        let cp = item.inventoryItems[x].inventoryItemData.pokemonData.cp
-                        let att = item.inventoryItems[x].inventoryItemData.pokemonData.individualAttack
-                        let def = item.inventoryItems[x].inventoryItemData.pokemonData.individualDefense
-                        let sta = item.inventoryItems[x].inventoryItemData.pokemonData.individualStamina
-                        let perf = String(format: "%.2f", Float(att + def + sta) / 45.0 * 100.0)
-                        var pkmn = item.inventoryItems[x].inventoryItemData.pokemonData.pokemonId.description
-                        pkmn.removeAtIndex(pkmn.startIndex)
-                        let num = String(format: "%03d", item.inventoryItems[x].inventoryItemData.pokemonData.pokemonId.rawValue)
-                        let url = "http://serebii.net/pokemongo/pokemon/" + num + ".png"
-                        
-                        let param = [String(cp), String(att), String(def), String(sta), perf, pkmn, num, url]
-                        let id = item.inventoryItems[x].inventoryItemData.pokemonData.id
-                        let new = Pokemon(values: param, id: id)
-                        self.pokemons.append(new)
-                    }
+                if item.inventoryItems[x].inventoryItemData.hasPokemonData &&
+                    item.inventoryItems[x].inventoryItemData.pokemonData.hasIsEgg == false &&
+                    item.inventoryItems[x].inventoryItemData.pokemonData.hasMove1 &&
+                    item.inventoryItems[x].inventoryItemData.pokemonData.hasMove2 {
+                    
+                    let cp = item.inventoryItems[x].inventoryItemData.pokemonData.cp
+                    let att = item.inventoryItems[x].inventoryItemData.pokemonData.individualAttack
+                    let def = item.inventoryItems[x].inventoryItemData.pokemonData.individualDefense
+                    let sta = item.inventoryItems[x].inventoryItemData.pokemonData.individualStamina
+                    let perf = String(format: "%.2f", Float(att + def + sta) / 45.0 * 100.0)
+                    
+                    var pkmn = item.inventoryItems[x].inventoryItemData.pokemonData.pokemonId.description
+                    pkmn.removeAtIndex(pkmn.startIndex)
+                    let num = String(format: "%03d", item.inventoryItems[x].inventoryItemData.pokemonData.pokemonId.rawValue)
+                    let url = "http://serebii.net/pokemongo/pokemon/" + num + ".png"
+                    
+                    var move1 = item.inventoryItems[x].inventoryItemData.pokemonData.move1.description
+                    var move2 = item.inventoryItems[x].inventoryItemData.pokemonData.move2.description
+                    move1.removeAtIndex(move1.startIndex)
+                    move2.removeAtIndex(move2.startIndex)
+                    
+                    let param = [String(cp), String(att), String(def), String(sta), perf, pkmn, num, url, move1, move2]
+                    let id = item.inventoryItems[x].inventoryItemData.pokemonData.id
+                    let new = Pokemon(values: param, id: id)
+                    self.pokemons.append(new)
                 }
             }
             self.pokemons.sortInPlace({ Int($0.num) < Int($1.num) })
