@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20A9784917B69B8AFA1371D2 /* Pods_PogoTool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED5578FB03A04E1A4B4212D9 /* Pods_PogoTool.framework */; };
+		57EE9F031D67073A00EF1426 /* extensionImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EE9F021D67073A00EF1426 /* extensionImage.swift */; };
 		937C14891D51F5B300F06A56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C14881D51F5B300F06A56 /* AppDelegate.swift */; };
 		937C148B1D51F5B300F06A56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937C148A1D51F5B300F06A56 /* ViewController.swift */; };
 		937C148E1D51F5B300F06A56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 937C148C1D51F5B300F06A56 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		31D695ED6E4F84331806C8B3 /* Pods-PogoTool.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PogoTool.release.xcconfig"; path = "Pods/Target Support Files/Pods-PogoTool/Pods-PogoTool.release.xcconfig"; sourceTree = "<group>"; };
+		57EE9F021D67073A00EF1426 /* extensionImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensionImage.swift; sourceTree = "<group>"; };
 		937C14851D51F5B300F06A56 /* PogoTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PogoTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		937C14881D51F5B300F06A56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		937C148A1D51F5B300F06A56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			children = (
 				93D131E81D5242DE002A8E0E /* Pokemon.swift */,
 				93EFFFC61D5341C10027C0A6 /* pokemonCell.swift */,
+				57EE9F021D67073A00EF1426 /* extensionImage.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				937C14891D51F5B300F06A56 /* AppDelegate.swift in Sources */,
 				93FB17A81D58C14100C2581F /* LoginViewController.swift in Sources */,
 				93D131E91D5242DE002A8E0E /* Pokemon.swift in Sources */,
+				57EE9F031D67073A00EF1426 /* extensionImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

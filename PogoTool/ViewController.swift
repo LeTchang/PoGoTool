@@ -60,11 +60,16 @@ class ViewController: UIViewController, PGoAuthDelegate, PGoApiDelegate, UITable
             }
         }
         self.pokemons.removeAll()
+        
         for i in 0 ..< superArray.count {
             if self.sort {
                 superArray[i].sortInPlace( { $0.perf > $1.perf } )
+                self.IvButton.enabled = false
+                self.CpButton.enabled = true
             } else {
                 superArray[i].sortInPlace( { Int($0.cp) > Int($1.cp) } )
+                self.IvButton.enabled = true
+                self.CpButton.enabled = false
             }
             for y in 0 ..< superArray[i].count {
                 self.pokemons.append(superArray[i][y])
