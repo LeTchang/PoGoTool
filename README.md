@@ -1,8 +1,7 @@
 # PoGoTool
 :iphone: iOS App for pokemon Go
 
-A word from the author (me):
-> The app is still in progress, sorry not sorry
+With the last Pokemon Go update, the app doesn't work anymore. I'm working on it. 
 
 If you have a double authentification with your Google account, you can't login. I'm working on it.
 
